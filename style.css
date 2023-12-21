@@ -1,0 +1,44 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #42f566;
+}
+.Todo-ListContainer{
+    position: relative;
+    display: flex;
+}
+input{
+    padding: 10px 10px;
+    border: none;
+    outline: none;
+
+}
+.btn{
+    margin-left: 15px ;
+    background-color: #2615bd;
+    border: none;
+    padding: 0 5px;
+    color: #fff;
+    border-radius: 9px;
+    cursor: pointer;
+}
+.showTodo{
+    position: absolute;
+    top: 49px;
+    background-color: #a87d32;
+    width: 183px;
+    height: 200px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+.delete{
+    margin-left: 25px;
+    cursor: pointer;
+}
