@@ -1,64 +1,78 @@
 const input = document.getElementById("input");
 const btn = document.querySelector(".btn");
 const showTodo = document.querySelector(".showTodo");
-
-
-let json = []
-
+let json = [];
 let index = 0;
+let str = " ";
+
+
+
+
+
 let todos = JSON.parse(localStorage.getItem("todos"));
-
-if(todos != null){
-  index = -1
-  todos.forEach(todo=>{
-    index++;
-    addTodo(todo.text)
-    json.push({ id: index, text:todo.text })
-    localStorage.setItem("todos",JSON.stringify(json))
-  });
-}
-
-function addTodo(value){
-    let p = document.createElement("p");
-    let deletebtn = document.createElement("span");
-    deletebtn.classList.add("delete");
-    let deleteText = document.createTextNode('delete');
-    deletebtn.appendChild(deleteText)
-    p.innerHTML = value;
-    showTodo.appendChild(p);
-    p.appendChild(deletebtn);
-    let all_P = document.querySelectorAll('p')
-  all_P.forEach((p,i)=>{
-    p.querySelector('.delete').addEventListener('click',()=>{
-      let filterdata = todos.filter((todo,i)=>{
-       return todo.id !== i
-      })
-      p.remove();
-    localStorage.setItem("todos",JSON.stringify(filterdata))
-   })
-  })
+if(todos){
+     index = -1
+    todos.forEach(element =>{
+      index++;
+      json.push({id:index,text:element.text});
+      localStorage.setItem("todos",JSON.stringify(json))
+      str += `<p>${element.text}<span onclick="deleteTodo(${element.id})" class="delete">Delete</span><span class="Edit" onclick="EditTodo(${element.id})">Edit</span></p>`
+    });
+    showTodo.innerHTML = str;
   }
-  
-  
 
-btn.addEventListener("click",() => {
-  addTodo(input.value);
-   todos = localStorage.getItem("todos");
-  showData(input.value)
-  input.value = " "
+  // add Event Listener click
+btn.addEventListener("click", () => {
+ if(btn.innerHTML === "Add"){
+  str += `<p>${input.value}<span onclick="deleteTodo(${index})" class="delete">Delete</span><span onclick="EditTodo(${index})" class="Edit">Edit</span></p>`
+  showTodo.innerHTML = str;
+  setLocalValues();
+  input.value = " ";
+ }  
 });
-
-function showData(value){
-    if (todos == null) {
-        index = 0;
-        json.push({ id: index, text: value });
-        localStorage.setItem("todos", JSON.stringify(json));
-      } else {
-        index++;
-        json.push({ id: index, text: value });
-        localStorage.setItem("todos", JSON.stringify(json));
-      }
+function setLocalValues(){
+  todos = localStorage.getItem("todos");
+  if(todos == null){
+    index = 0;
+    json.push({id:index,text:input.value});
+    localStorage.setItem("todos",JSON.stringify(json))
+  }
+  else{
+    index++;
+    json.push({id:index,text:input.value});
+    localStorage.setItem("todos",JSON.stringify(json));
+    
+  }
 }
+
+function deleteTodo(i) {
+  json.splice(i,1);
+  localStorage.setItem("todos",JSON.stringify(json))
+}
+function EditTodo(i){
+  let EditInputValue = json.findIndex(element=>element.id === i);
+  // console.log(i,EditInputValue);
+   input.value = json[EditInputValue].text;
+   
+   let findData = json.find((element,index)=>element.text === input.value);
+  btn.innerHTML = "Edit";
+  btn.addEventListener('click',()=>{
+   if(btn.innerHTML === "Edit"){
+     let replacement = {...findData,text:input.value};
+     json.splice(i,1,replacement);
+     localStorage.setItem("todos",JSON.stringify(json))
+   }
+  })
+  
+}
+
+
+
+
+
+
+
+
 
 
 

@@ -32,13 +32,20 @@ input{
     position: absolute;
     top: 49px;
     background-color: #a87d32;
-    width: 183px;
+    width: 300px;
     height: 200px;
     color: #fff;
     display: flex;
     flex-direction: column;
 }
 .delete{
-    margin-left: 25px;
+    margin-left: 40px;
     cursor: pointer;
+}
+.Edit{
+    margin-left: 40px;
+    cursor: pointer;
+}
+p{
+    margin-bottom: 20px ;
 }
